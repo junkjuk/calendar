@@ -11,10 +11,13 @@
 </head>
 <body>
     
-<div id="app">
-    
-    <calendar></calendar>
-</div>
+    <div id="app">
+        <calendar></calendar>
+    </div>
+
+
+
+
 <script src="{{ asset('assets/uikit.min.js') }}"></script>
 <script src="{{ asset('assets/uikit-icons.min.js') }}"></script>
 <script src="./js/app.js"></script>

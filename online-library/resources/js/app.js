@@ -11,7 +11,7 @@ window.Vue = require('vue').default;
 import Vuex from 'vuex';
 import store from './store/index';
 
-//Vue.component('month', require('./components/month.vue').default);
+Vue.component('auth', require('./components/auth.vue').default);
 Vue.component('calendar', require('./components/calendar.vue').default);
 Vue.component('eventForm', require('./components/eventForm.vue').default);
 
