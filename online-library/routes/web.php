@@ -11,6 +11,8 @@ Route::get('/', function () {
     return view('login');
 });
 
+
+
 Route::name('user.')->group(function(){
     Route::view('/index', 'index')->middleware('auth')->name('index');
 

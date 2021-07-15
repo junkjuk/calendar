@@ -1,6 +1,6 @@
 <template>
   
-   <form id="task-form" uk-modal>
+   <form id="task-form" uk-modal ref="form" @submit.prevent="addEvent()">
             <div class="uk-modal-dialog" uk-overflow-auto>
                 <div class="uk-modal-header">
                     <h2 class="uk-modal-title">Add event</h2>
@@ -15,13 +15,6 @@
                         </div>
 
                         <div class="uk-margin">
-                            <label class="uk-form-label" for="task-description">Description</label>
-                            <div class="uk-form-controls">
-                                <textarea class="uk-textarea" id="task-description" v-model="formModel.description"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="uk-margin">
                             <label class="uk-form-label" for="task-date">Date</label>
                             <div class="uk-form-controls">
                                 <input type="date" class="uk-input uk-width-1-2" id="task-date" required v-model="formModel.date">
@@ -29,21 +22,12 @@
                                 <input type="number" min="0" max="59" class="uk-input uk-width-1-4" required v-model="formModel.minutes">
                             </div>
                         </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label">Finished</label>
-                            <div class="uk-form-controls uk-form-controls-text">
-                                <label><input type="radio" class="uk-radio" name="finished" v-model="formModel.finished" :value="true"> Yes</label>
-                                <br>
-                                <label><input type="radio" class="uk-radio" name="finished" v-model="formModel.finished" :value="false"> No</label>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
                 <div class="uk-modal-footer uk-text-right">
-                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
-                    <button class="uk-button uk-button-primary" type="submit">Сохранить</button>
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">no</button>
+                    <button class="uk-button uk-button-primary" type="submit" >Save</button>
                 </div>
             </div>
     </form>
@@ -51,6 +35,7 @@
 
 <script>
 
+import { mapActions } from 'vuex'
 
     export default {
         props: ['newEvent'],
@@ -66,6 +51,23 @@
         },
         mounted() {
             this.form = UIkit.modal('#task-form')
+        },
+        methods:{
+            ...mapActions(['ajaxEventsAdd']),
+            addEvent(){
+
+               
+                const content = this.formModel.title;
+                
+                const ev = {
+                    date: this.formModel.date,
+                    time:this.formModel.hours+":"+this.formModel.minutes+":00",
+                    content: content
+                }
+        
+                this.ajaxEventsAdd(ev)
+                this.form.hide()
+            }
         }
     }
 </script>
