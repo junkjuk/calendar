@@ -13,7 +13,7 @@
       <p class="ce_title">Upcoming Events <button class="uk-ikon-link" uk-icon="plus-circle" @click="addEvent()"></button></p>
 
 
-        <div class="event_item" v-for="event in daysEvents()[getIndexKey(getUserDate)]">
+        <div class="event_item" v-for="event in getDaysEvents[getIndexKey(getUserDate)]">
         <div class="ei_Dot dot_active"></div>
         <div class="ei_Title">{{event.time}}</div>
         <div class="ei_Copy">{{event.content}}</div>
@@ -32,7 +32,7 @@ import { mapGetters, mapMutations } from "vuex";
 
 
     export default {
-         computed: mapGetters(['getUserDate','getMonthNames', 'getYear', 'getEvents']),
+         computed: mapGetters(['getUserDate','getMonthNames', 'getYear', 'getDaysEvents']),
          data(){
             return{
                 date:''
@@ -53,25 +53,10 @@ import { mapGetters, mapMutations } from "vuex";
                 const d = new Date(this.date);
                 this.updateDate(d);
             },
-            daysEvents(){
-                const events = this.getEvents;
-                const eventIndex = {};
-                for(let i = 0; i < events.length; i++){
-                   
-                    const event = events[i];
-                    const d = new Date(event.date)
-                    const key = this.getIndexKey(d);
-                    const eventForDay = eventIndex[key] || [];
-                    eventForDay.push(event);
-                   
-                    eventIndex[key] = eventForDay 
-                }
-
-                return eventIndex
-            },
             getIndexKey(date){
                 return date.toLocaleDateString()
             }
+
          }
     }
 </script>
@@ -108,7 +93,7 @@ import { mapGetters, mapMutations } from "vuex";
   cursor: pointer;
 }
 .event_item:hover{
-    background-image: linear-gradient(-222deg, #FF8494, #ffa9b7);
+    background-image: linear-gradient(-222deg, #84abff, #a9d5ff);
     box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);
   }
 
@@ -123,7 +108,7 @@ import { mapGetters, mapMutations } from "vuex";
   box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);
 }
 .dot_active{
-  background-color: #FF8494;
+  background-color: #8684ff;
 }
 
 .ei_Title{

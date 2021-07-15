@@ -10,6 +10,20 @@ export default new Vuex.Store({
     newEvent: null
   },
   getters: {
+    getDaysEvents(state){
+      const events = state.events;
+      const eventIndex = {};
+      for(let i = 0; i < events.length; i++){
+          const event = events[i];
+          const d = new Date(event.date)
+          const key = d.toLocaleDateString();
+          const eventForDay = eventIndex[key] || [];
+          eventForDay.push(event);
+          eventIndex[key] = eventForDay 
+      }
+
+      return eventIndex
+  },
     getDayEvent(state){
 
       return state.events;

@@ -1960,7 +1960,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear', 'getEvents']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear', 'getDaysEvents']),
   data: function data() {
     return {
       date: ''
@@ -1978,21 +1978,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     dateSelect: function dateSelect() {
       var d = new Date(this.date);
       this.updateDate(d);
-    },
-    daysEvents: function daysEvents() {
-      var events = this.getEvents;
-      var eventIndex = {};
-
-      for (var i = 0; i < events.length; i++) {
-        var event = events[i];
-        var d = new Date(event.date);
-        var key = this.getIndexKey(d);
-        var eventForDay = eventIndex[key] || [];
-        eventForDay.push(event);
-        eventIndex[key] = eventForDay;
-      }
-
-      return eventIndex;
     },
     getIndexKey: function getIndexKey(date) {
       return date.toLocaleDateString();
@@ -2181,7 +2166,7 @@ __webpack_require__.r(__webpack_exports__);
     dayCard: _dayCadr__WEBPACK_IMPORTED_MODULE_0__.default,
     monthSelector: _monthSelector__WEBPACK_IMPORTED_MODULE_1__.default
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['getUserDate', ['getEvents']]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['getUserDate', 'getEvents', 'getDaysEvents']),
   methods: {
     getDays: function getDays() {
       var days = [];
@@ -2257,9 +2242,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear', 'getDaysEvents']),
   props: ['monthNomber'],
   methods: {
     getDays: function getDays() {
@@ -2271,7 +2263,7 @@ __webpack_require__.r(__webpack_exports__);
       var firstDay = new Date(year, month, 1).getUTCDay();
 
       for (var i = firstDay; i < daysInMonth + firstDay; i++) {
-        days[i] = i + 1 - firstDay;
+        days[i] = new Date(year, month, i + 1 - firstDay);
       }
 
       return days;
@@ -2289,6 +2281,9 @@ __webpack_require__.r(__webpack_exports__);
       return day.toLocaleDateString('en-EN', {
         weekday: 'short'
       });
+    },
+    getIndexKey: function getIndexKey(date) {
+      return date.toLocaleDateString();
     }
   }
 });
@@ -2387,13 +2382,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     weekSelector: _weekSelector__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['getUserDate', 'getEvents']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['getUserDate', 'getEvents', 'getDaysEvents']),
   methods: {
     weekDay: function weekDay(index) {
       var day = new Date('2021-04-05');
@@ -2426,6 +2433,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return dayes;
+    },
+    getIndexKey: function getIndexKey(date) {
+      return date.toLocaleDateString();
+    },
+    addEvent: function addEvent() {
+      UIkit.modal('#task-form').show();
     }
   }
 });
@@ -2660,6 +2673,21 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     newEvent: null
   },
   getters: {
+    getDaysEvents: function getDaysEvents(state) {
+      var events = state.events;
+      var eventIndex = {};
+
+      for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+        var d = new Date(event.date);
+        var key = d.toLocaleDateString();
+        var eventForDay = eventIndex[key] || [];
+        eventForDay.push(event);
+        eventIndex[key] = eventForDay;
+      }
+
+      return eventIndex;
+    },
     getDayEvent: function getDayEvent(state) {
       return state.events;
     },
@@ -7200,7 +7228,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.uk-ikon-link[data-v-08c855a1]{\r\n    margin-left:10px ;\n}\n.calendar[data-v-08c855a1]{\r\n  width:370px;\r\n  box-shadow: 0px 0px 35px -16px rgba(0,0,0,0.75);\r\n  font-family:\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\r\n  padding: 20px 30px;\r\n  color:#363b41;\r\n  display: inline-block;\n}\n.calendar_header[data-v-08c855a1]{\r\n  border-bottom: 2px solid rgba(0, 0, 0, 0.08);\n}\n.header_copy[data-v-08c855a1]{\r\n  font-size:20px;\n}\n.ce_title[data-v-08c855a1]{\r\n  font-size:14px;\n}\n.event_item[data-v-08c855a1]{\r\n  margin: 18px 0;\r\n  padding:5px;\r\n  cursor: pointer;\n}\n.event_item[data-v-08c855a1]:hover{\r\n    background-image: linear-gradient(-222deg, #FF8494, #ffa9b7);\r\n    box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);\n}\n.ei_Dot[data-v-08c855a1],.ei_Title[data-v-08c855a1]{\r\n  display:inline-block;\n}\n.ei_Dot[data-v-08c855a1]{\r\n  border-radius:50%;\r\n  width:10px;\r\n  height: 10px;\r\n  box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);\n}\n.dot_active[data-v-08c855a1]{\r\n  background-color: #FF8494;\n}\n.ei_Title[data-v-08c855a1]{\r\n  margin-left:10px;\r\n  color:#363b41;\n}\n.ei_Copy[data-v-08c855a1]{\r\n  font-size:12px;\r\n  margin-left:27px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.uk-ikon-link[data-v-08c855a1]{\r\n    margin-left:10px ;\n}\n.calendar[data-v-08c855a1]{\r\n  width:370px;\r\n  box-shadow: 0px 0px 35px -16px rgba(0,0,0,0.75);\r\n  font-family:\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\r\n  padding: 20px 30px;\r\n  color:#363b41;\r\n  display: inline-block;\n}\n.calendar_header[data-v-08c855a1]{\r\n  border-bottom: 2px solid rgba(0, 0, 0, 0.08);\n}\n.header_copy[data-v-08c855a1]{\r\n  font-size:20px;\n}\n.ce_title[data-v-08c855a1]{\r\n  font-size:14px;\n}\n.event_item[data-v-08c855a1]{\r\n  margin: 18px 0;\r\n  padding:5px;\r\n  cursor: pointer;\n}\n.event_item[data-v-08c855a1]:hover{\r\n    background-image: linear-gradient(-222deg, #84abff, #a9d5ff);\r\n    box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);\n}\n.ei_Dot[data-v-08c855a1],.ei_Title[data-v-08c855a1]{\r\n  display:inline-block;\n}\n.ei_Dot[data-v-08c855a1]{\r\n  border-radius:50%;\r\n  width:10px;\r\n  height: 10px;\r\n  box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);\n}\n.dot_active[data-v-08c855a1]{\r\n  background-color: #8684ff;\n}\n.ei_Title[data-v-08c855a1]{\r\n  margin-left:10px;\r\n  color:#363b41;\n}\n.ei_Copy[data-v-08c855a1]{\r\n  font-size:12px;\r\n  margin-left:27px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7296,7 +7324,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.uk-flex[data-v-7aab98bf]{\r\n    margin-top: 30px;\r\n    flex-direction: column;\r\n    justify-content:space-between;\r\n    flex-wrap: wrap;\n}\n.week[data-v-7aab98bf]{\r\n     margin-top: 30px;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content:space-between;\r\n    flex-wrap: wrap;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.uk-flex[data-v-7aab98bf]{\r\n    margin-top: 30px;\r\n    flex-direction: column;\r\n    justify-content:space-between;\r\n    flex-wrap: wrap;\n}\n.week[data-v-7aab98bf]{\r\n     margin-top: 30px;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content:space-between;\r\n    flex-wrap: wrap;\n}\n.calendar[data-v-7aab98bf]{\r\n  width:370px;\r\n  box-shadow: 0px 0px 35px -16px rgba(0,0,0,0.75);\r\n  font-family:\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\r\n  padding: 20px 30px;\r\n  color:#363b41;\r\n  display: inline-block;\n}\n.calendar_header[data-v-7aab98bf]{\r\n  border-bottom: 2px solid rgba(0, 0, 0, 0.08);\n}\n.header_copy[data-v-7aab98bf]{\r\n  font-size:20px;\n}\n.ce_title[data-v-7aab98bf]{\r\n  font-size:14px;\n}\n.event_item[data-v-7aab98bf]{\r\n  margin: 18px 0;\r\n  padding:5px;\r\n  cursor: pointer;\n}\n.event_item[data-v-7aab98bf]:hover{\r\n    background-image: linear-gradient(-222deg, #84abff, #a9d5ff);\r\n    box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);\n}\n.ei_Dot[data-v-7aab98bf],.ei_Title[data-v-7aab98bf]{\r\n  display:inline-block;\n}\n.ei_Dot[data-v-7aab98bf]{\r\n  border-radius:50%;\r\n  width:10px;\r\n  height: 10px;\r\n  box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);\n}\n.dot_active[data-v-7aab98bf]{\r\n  background-color: #8684ff;\n}\n.ei_Title[data-v-7aab98bf]{\r\n  margin-left:10px;\r\n  color:#363b41;\n}\n.ei_Copy[data-v-7aab98bf]{\r\n  font-size:12px;\r\n  margin-left:27px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40073,7 +40101,7 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _vm._l(_vm.daysEvents()[_vm.getIndexKey(_vm.getUserDate)], function(
+          _vm._l(_vm.getDaysEvents[_vm.getIndexKey(_vm.getUserDate)], function(
             event
           ) {
             return _c("div", { staticClass: "event_item" }, [
@@ -40396,7 +40424,7 @@ var render = function() {
                     {
                       attrs: {
                         date: day,
-                        events: _vm.daysEvents()[_vm.getIndexKey(day)]
+                        events: _vm.getDaysEvents[_vm.getIndexKey(day)]
                       }
                     },
                     [_vm._v(_vm._s(day.getDate()))]
@@ -40456,9 +40484,24 @@ var render = function() {
           ])
         }),
         _vm._v(" "),
-        _vm._l(_vm.getDays(), function(i) {
+        _vm._l(_vm.getDays(), function(day) {
           return _c("div", { staticClass: "item" }, [
-            i != null ? _c("div", [_vm._v(_vm._s(i) + " ")]) : _vm._e()
+            day != null
+              ? _c("div", [
+                  _vm._v(
+                    "\n                 " +
+                      _vm._s(day.getDate()) +
+                      "\n\n                        "
+                  ),
+                  _vm.getDaysEvents[_vm.getIndexKey(day)] != null
+                    ? _c("a", { staticClass: "uk-badge" }, [
+                        _vm._v(
+                          _vm._s(_vm.getDaysEvents[_vm.getIndexKey(day)].length)
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              : _vm._e()
           ])
         })
       ],
@@ -40570,7 +40613,44 @@ var render = function() {
             _c("div", [
               _c("h4", [_vm._v(_vm._s(_vm.weekDay(i - 1)))]),
               _vm._v(" "),
-              _c("h2", [_vm._v(" " + _vm._s(_vm.setDays()[i].getDate()))])
+              _c("h2", [_vm._v(" " + _vm._s(_vm.setDays()[i].getDate()))]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "calendar_events" },
+                [
+                  _c("p", { staticClass: "ce_title" }, [
+                    _vm._v("Upcoming Events "),
+                    _c("button", {
+                      staticClass: "uk-ikon-link",
+                      attrs: { "uk-icon": "plus-circle" },
+                      on: {
+                        click: function($event) {
+                          return _vm.addEvent()
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(
+                    _vm.getDaysEvents[_vm.getIndexKey(_vm.setDays()[i])],
+                    function(event) {
+                      return _c("div", { staticClass: "event_item" }, [
+                        _c("div", { staticClass: "ei_Dot dot_active" }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "ei_Title" }, [
+                          _vm._v(_vm._s(event.time))
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "ei_Copy" }, [
+                          _vm._v(_vm._s(event.content))
+                        ])
+                      ])
+                    }
+                  )
+                ],
+                2
+              )
             ]),
             _vm._v(" "),
             _c("h1")

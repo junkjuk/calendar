@@ -9,8 +9,15 @@
                     {{ weekDay(i - 1) }}
                 </div>
             </div>
-            <div v-for="i in getDays()" class="item">
-                <div v-if="i!=null">{{i}} </div>
+            <div v-for="day in getDays()" class="item">
+                <div v-if="day!=null">
+                     {{day.getDate()}}
+
+                            <a v-if="getDaysEvents[getIndexKey(day)]!=null" class="uk-badge">{{getDaysEvents[getIndexKey(day)].length}}</a>
+                        
+                    
+                </div>
+                
             </div>
         </div>
     </div>
@@ -22,7 +29,7 @@ import {mapGetters} from "vuex";
     export default {
         
         
-        computed: mapGetters(['getUserDate','getMonthNames', 'getYear']),
+        computed: mapGetters(['getUserDate','getMonthNames', 'getYear', 'getDaysEvents']),
         props:['monthNomber'],
         methods:{
             getDays(){
@@ -35,7 +42,7 @@ import {mapGetters} from "vuex";
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
                 const firstDay = new Date(year, month, 1).getUTCDay();
                 for(let i = firstDay; i < daysInMonth + firstDay; i++){
-                    days[i] = i + 1 - firstDay
+                     days[i] = new Date(year, month, i + 1 - firstDay)
                 }
 
                 return days;
@@ -52,6 +59,9 @@ import {mapGetters} from "vuex";
                 day.setDate(day.getDate() + index);
 
                 return day.toLocaleDateString('en-EN',{ weekday: 'short'});
+            },
+            getIndexKey(date){
+                return date.toLocaleDateString()
             }
         }
     }
