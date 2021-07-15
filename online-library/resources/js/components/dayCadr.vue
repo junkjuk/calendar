@@ -2,15 +2,22 @@
     
 
     <div class="uk-card uk-card-small uk-card-hover  uk-margin-small-top day" :class="itemClasses">
-        <div>
-            Day <slot></slot>
+        <div class="">
+            <div class="uk-card-title">
+                <h1><slot></slot></h1>
+            </div>
+            <div class="uk-card-body" v-if="events!=null">
+                <div >
+                    <a class="uk-badge">{{events.length}}</a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props:['date'],
+        props:['date', 'events'],
         computed:{
             itemClasses() {
                 const isToday = this.getISODate(new Date()) === this.getISODate(this.date);
@@ -27,6 +34,7 @@
                 
                 return d.toISOString().split('T')[0];
             }
+            
         }
     }
     

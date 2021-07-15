@@ -10,10 +10,12 @@
                 </div>
             </div>
             <div v-for="day in getDays()" class="item days">
-                <dayCard v-if="day!=null" :date="day">{{ day.getDate() }}</dayCard>
+                <dayCard v-if="day!=null" :date="day" :events="daysEvents()[getIndexKey(day)]">{{ day.getDate() }}</dayCard>
             </div>
         </div>
+         {{this.daysEvents()}}
     </div>
+   
 </template>
 
 <script>
@@ -30,7 +32,8 @@ import monthSelector from "./monthSelector";
         },
         
         
-        computed: mapGetters(['getUserDate']),
+        computed: mapGetters(['getUserDate',['getEvents']]),
+
         methods:{
             getDays(){
                 const days = [];
@@ -46,11 +49,30 @@ import monthSelector from "./monthSelector";
 
                 return days;
             },
+            daysEvents(){
+                const events = this.getEvents;
+                const eventIndex = {};
+                for(let i = 0; i < events.length; i++){
+                   
+                    const event = events[i];
+                    const d = new Date(event.date)
+                    const key = this.getIndexKey(d);
+                    const eventForDay = eventIndex[key] || [];
+                    eventForDay.push(event);
+                   
+                    eventIndex[key] = eventForDay 
+                }
+
+                return eventIndex
+            },
             weekDay(index){
                 const day = new Date('2021-04-05');
                 day.setDate(day.getDate() + index);
 
                 return day.toLocaleDateString('en-EN',{ weekday: 'long'});
+            },
+            getIndexKey(date){
+                return date.toLocaleDateString()
             }
         }
     }

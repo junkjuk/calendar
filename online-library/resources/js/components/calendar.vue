@@ -14,7 +14,6 @@
                 </ul>
             </div>
         </nav>
-        {{getEvents.lenght()}}
        <component :is="component"></component>
        
    </div>

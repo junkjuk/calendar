@@ -1879,7 +1879,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -1961,7 +1960,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear', 'getEvents']),
   data: function data() {
     return {
       date: ''
@@ -1979,6 +1978,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     dateSelect: function dateSelect() {
       var d = new Date(this.date);
       this.updateDate(d);
+    },
+    daysEvents: function daysEvents() {
+      var events = this.getEvents;
+      var eventIndex = {};
+
+      for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+        var d = new Date(event.date);
+        var key = this.getIndexKey(d);
+        var eventForDay = eventIndex[key] || [];
+        eventForDay.push(event);
+        eventIndex[key] = eventForDay;
+      }
+
+      return eventIndex;
+    },
+    getIndexKey: function getIndexKey(date) {
+      return date.toLocaleDateString();
     }
   })
 });
@@ -2006,8 +2023,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['date'],
+  props: ['date', 'events'],
   computed: {
     itemClasses: function itemClasses() {
       var isToday = this.getISODate(new Date()) === this.getISODate(this.date);
@@ -2147,6 +2171,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2155,7 +2181,7 @@ __webpack_require__.r(__webpack_exports__);
     dayCard: _dayCadr__WEBPACK_IMPORTED_MODULE_0__.default,
     monthSelector: _monthSelector__WEBPACK_IMPORTED_MODULE_1__.default
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['getUserDate']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['getUserDate', ['getEvents']]),
   methods: {
     getDays: function getDays() {
       var days = [];
@@ -2171,12 +2197,30 @@ __webpack_require__.r(__webpack_exports__);
 
       return days;
     },
+    daysEvents: function daysEvents() {
+      var events = this.getEvents;
+      var eventIndex = {};
+
+      for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+        var d = new Date(event.date);
+        var key = this.getIndexKey(d);
+        var eventForDay = eventIndex[key] || [];
+        eventForDay.push(event);
+        eventIndex[key] = eventForDay;
+      }
+
+      return eventIndex;
+    },
     weekDay: function weekDay(index) {
       var day = new Date('2021-04-05');
       day.setDate(day.getDate() + index);
       return day.toLocaleDateString('en-EN', {
         weekday: 'long'
       });
+    },
+    getIndexKey: function getIndexKey(date) {
+      return date.toLocaleDateString();
     }
   }
 });
@@ -2465,11 +2509,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['getUserDate', 'getMonthNames', 'getYear', 'getEvents']),
   components: {
     yearSelector: _yearSelector__WEBPACK_IMPORTED_MODULE_0__.default,
     monthCard: _monthCard__WEBPACK_IMPORTED_MODULE_1__.default
-  }
+  },
+  methods: {}
 });
 
 /***/ }),
@@ -39931,7 +39976,7 @@ var render = function() {
           ])
         ]
       ),
-      _vm._v("\n     " + _vm._s(_vm.getEvents.lenght()) + "\n    "),
+      _vm._v(" "),
       _c(_vm.component, { tag: "component" })
     ],
     1
@@ -40028,14 +40073,18 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _vm._l(10, function(i) {
+          _vm._l(_vm.daysEvents()[_vm.getIndexKey(_vm.getUserDate)], function(
+            event
+          ) {
             return _c("div", { staticClass: "event_item" }, [
               _c("div", { staticClass: "ei_Dot dot_active" }),
               _vm._v(" "),
-              _c("div", { staticClass: "ei_Title" }, [_vm._v("10:30 am")]),
+              _c("div", { staticClass: "ei_Title" }, [
+                _vm._v(_vm._s(event.time))
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "ei_Copy" }, [
-                _vm._v("Monday briefing with the team")
+                _vm._v(_vm._s(event.content))
               ])
             ])
           })
@@ -40075,7 +40124,23 @@ var render = function() {
         "uk-card uk-card-small uk-card-hover  uk-margin-small-top day",
       class: _vm.itemClasses
     },
-    [_c("div", [_vm._v("\n        Day "), _vm._t("default")], 2)]
+    [
+      _c("div", {}, [
+        _c("div", { staticClass: "uk-card-title" }, [
+          _c("h1", [_vm._t("default")], 2)
+        ]),
+        _vm._v(" "),
+        _vm.events != null
+          ? _c("div", { staticClass: "uk-card-body" }, [
+              _c("div", [
+                _c("a", { staticClass: "uk-badge" }, [
+                  _vm._v(_vm._s(_vm.events.length))
+                ])
+              ])
+            ])
+          : _vm._e()
+      ])
+    ]
   )
 }
 var staticRenderFns = []
@@ -40326,9 +40391,16 @@ var render = function() {
             { staticClass: "item days" },
             [
               day != null
-                ? _c("dayCard", { attrs: { date: day } }, [
-                    _vm._v(_vm._s(day.getDate()))
-                  ])
+                ? _c(
+                    "dayCard",
+                    {
+                      attrs: {
+                        date: day,
+                        events: _vm.daysEvents()[_vm.getIndexKey(day)]
+                      }
+                    },
+                    [_vm._v(_vm._s(day.getDate()))]
+                  )
                 : _vm._e()
             ],
             1
@@ -40336,7 +40408,8 @@ var render = function() {
         })
       ],
       2
-    )
+    ),
+    _vm._v("\n     " + _vm._s(this.daysEvents()) + "\n")
   ])
 }
 var staticRenderFns = []

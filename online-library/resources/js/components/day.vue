@@ -13,10 +13,10 @@
       <p class="ce_title">Upcoming Events <button class="uk-ikon-link" uk-icon="plus-circle" @click="addEvent()"></button></p>
 
 
-        <div class="event_item" v-for="i in 10">
+        <div class="event_item" v-for="event in daysEvents()[getIndexKey(getUserDate)]">
         <div class="ei_Dot dot_active"></div>
-        <div class="ei_Title">10:30 am</div>
-        <div class="ei_Copy">Monday briefing with the team</div>
+        <div class="ei_Title">{{event.time}}</div>
+        <div class="ei_Copy">{{event.content}}</div>
       </div>
      
     </div>
@@ -32,7 +32,7 @@ import { mapGetters, mapMutations } from "vuex";
 
 
     export default {
-         computed: mapGetters(['getUserDate','getMonthNames', 'getYear']),
+         computed: mapGetters(['getUserDate','getMonthNames', 'getYear', 'getEvents']),
          data(){
             return{
                 date:''
@@ -52,8 +52,26 @@ import { mapGetters, mapMutations } from "vuex";
             dateSelect(){
                 const d = new Date(this.date);
                 this.updateDate(d);
-            }
+            },
+            daysEvents(){
+                const events = this.getEvents;
+                const eventIndex = {};
+                for(let i = 0; i < events.length; i++){
+                   
+                    const event = events[i];
+                    const d = new Date(event.date)
+                    const key = this.getIndexKey(d);
+                    const eventForDay = eventIndex[key] || [];
+                    eventForDay.push(event);
+                   
+                    eventIndex[key] = eventForDay 
+                }
 
+                return eventIndex
+            },
+            getIndexKey(date){
+                return date.toLocaleDateString()
+            }
          }
     }
 </script>

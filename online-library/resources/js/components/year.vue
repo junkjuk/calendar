@@ -3,7 +3,7 @@
         <yearSelector></yearSelector>
         <div class="calendar-year">
             <div class="calendar" v-for="i in 12">
-                <monthCard :monthNomber="i"></monthCard>
+                <monthCard :monthNomber="i" ></monthCard>
             </div>
         </div>
     </div>
@@ -14,9 +14,12 @@ import { mapGetters } from "vuex";
 import yearSelector from "./yearSelector";
 import monthCard from "./monthCard";
     export default {
-        computed: mapGetters(['getUserDate','getMonthNames', 'getYear']),
+        computed: mapGetters(['getUserDate','getMonthNames', 'getYear', 'getEvents']),
         components:{
             yearSelector,monthCard
+        },
+        methods:{
+            
         }
 
     }
