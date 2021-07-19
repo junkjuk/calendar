@@ -8,7 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Event;
+use App\Models\User;
 
 class EventsController extends Controller
 {
@@ -17,23 +19,20 @@ class EventsController extends Controller
     
     public function index()
     {
-        
-        $e = [];
-        
-        $events = DB::table('events')->where('user_id', Auth::user()->id)->get();
-        foreach ($events as $ev) {
-            array_push($e, $ev);
-        }
+
+        $events = User::find( Auth::user()->id )->events()->where('user_id', Auth::user()->id)->get();
+        $events->toArray();
 
         return response()->json([
-            'event' => $e
+            'event' => $events
         ],200);
+
     }
 
    
     public function store(Request $request)
     {
- 
+        
         $event = new Event;
 
         $event->user_id =  Auth::user()->id;

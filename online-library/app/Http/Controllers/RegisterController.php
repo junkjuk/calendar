@@ -24,13 +24,13 @@ class RegisterController extends Controller
         ]);
 
 
-        // $flight = User::where('email', $validateFields['email'])->value('email');
+        $email = User::where('email', $validateFields['email'])->first()->value('email');
 
-        // if($flight = $validateFields['email']){
-        //     return redirect(route('user.registration'))->withErrors([
-        //         'email' => $flight, $validateFields['email']
-        //     ]);
-        // }
+        if($email = $validateFields['email']){
+            return redirect(route('user.registration'))->withErrors([
+                'email' => "Email is already in use "
+            ]);
+        }
 
 
         $user = User::create($validateFields);

@@ -13,7 +13,6 @@
                 <dayCard v-if="day!=null" :date="day" :events="getDaysEvents[getIndexKey(day)]" >{{ day.getDate() }}</dayCard>
             </div>
         </div>
-         {{this.daysEvents()}}
     </div>
    
 </template>
