@@ -2157,7 +2157,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -2181,21 +2180,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return days;
-    },
-    daysEvents: function daysEvents() {
-      var events = this.getEvents;
-      var eventIndex = {};
-
-      for (var i = 0; i < events.length; i++) {
-        var event = events[i];
-        var d = new Date(event.date);
-        var key = this.getIndexKey(d);
-        var eventForDay = eventIndex[key] || [];
-        eventForDay.push(event);
-        eventIndex[key] = eventForDay;
-      }
-
-      return eventIndex;
     },
     weekDay: function weekDay(index) {
       var day = new Date('2021-04-05');
@@ -2719,9 +2703,6 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
       });
     },
     ajaxEventsAdd: function ajaxEventsAdd(context, event) {
-      console.log(event.content);
-      console.log(event.date);
-      console.log(event.time);
       axios.post("api/event", {
         content: event.content,
         date: event.date,
@@ -40436,8 +40417,7 @@ var render = function() {
         })
       ],
       2
-    ),
-    _vm._v("\n     " + _vm._s(this.daysEvents()) + "\n")
+    )
   ])
 }
 var staticRenderFns = []

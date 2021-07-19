@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "simple-onesignal": "^1.0.4",
         "vuex": "^3.6.2"
     }
 }

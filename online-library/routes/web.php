@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 
 
 Route::get('/', function () {
@@ -25,8 +25,12 @@ Route::name('user.')->group(function(){
 
     Route::post('/login',[\App\Http\Controllers\LoginController::class, 'login']);
 
-    Route::get('/logout',function(){
+    Route::get('/logout',function(Request $request){
         Auth::logout();
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
         return redirect('/'); 
     })->name('logout');
 

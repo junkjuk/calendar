@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -56,9 +57,6 @@ export default new Vuex.Store({
     },
 
     ajaxEventsAdd(context, event) {
-      console.log(event.content);
-      console.log(event.date);
-      console.log(event.time);
 
       axios
       .post("api/event", {
